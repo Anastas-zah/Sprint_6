@@ -3,7 +3,6 @@ import allure
 from urls import Urls
 from pages.home_page import YaScooterHomePage
 from pages.order_page import YaScooterOrderPage
-from locators import YaScooterOrderPageLocator
 from data import YaScooterOrderPageData as order_data
 
 
@@ -22,7 +21,8 @@ class TestYaScooterOrderPage:
         ya_scooter_home_page.click_cookie_accept()
         ya_scooter_order_page.input_first_name('Вqw')
         ya_scooter_order_page.go_next()
-        assert ya_scooter_order_page.find_element(YaScooterOrderPageLocator.INCORRECT_FIRST_NAME_MESSAGE).is_displayed()
+        error_message_displayed = ya_scooter_order_page.is_first_name_error_displayed()
+        assert error_message_displayed, "Ожидаемое сообщение об ошибке для некорректного имени не отображается."
 
     @allure.suite('Suite_Заполнение данных на странице "Для кого самокат"')
     @allure.feature('Фича_Заполнения данных user-a при создании заказа на этапе "Для кого самокат"')
@@ -36,7 +36,8 @@ class TestYaScooterOrderPage:
         ya_scooter_home_page.click_cookie_accept()
         ya_scooter_order_page.input_last_name('Вqw')
         ya_scooter_order_page.go_next()
-        assert ya_scooter_order_page.find_element(YaScooterOrderPageLocator.INCORRECT_LAST_NAME_MESSAGE).is_displayed()
+        error_message_displayed = ya_scooter_order_page.is_last_name_error_displayed()
+        assert error_message_displayed, "Ожидаемое сообщение об ошибке для некорректной фамилии не отображается."
 
     @allure.suite('Suite_Заполнение данных на странице "Для кого самокат"')
     @allure.feature('Фича_Заполнения данных user-a при создании заказа на этапе "Для кого самокат"')
@@ -50,7 +51,8 @@ class TestYaScooterOrderPage:
         ya_scooter_home_page.click_cookie_accept()
         ya_scooter_order_page.input_address('Вqw')
         ya_scooter_order_page.go_next()
-        assert ya_scooter_order_page.find_element(YaScooterOrderPageLocator.INCORRECT_ADDRESS_MESSAGE).is_displayed()
+        error_message_displayed = ya_scooter_order_page.is_address_error_displayed()
+        assert error_message_displayed, "Ожидаемое сообщение об ошибке для некорректного адреса не отображается."
 
     @allure.suite('Suite_Заполнение данных на странице "Для кого самокат"')
     @allure.feature('Фича_Заполнения данных user-a при создании заказа на этапе "Для кого самокат"')
@@ -63,7 +65,8 @@ class TestYaScooterOrderPage:
         ya_scooter_home_page = YaScooterHomePage(driver)
         ya_scooter_home_page.click_cookie_accept()
         ya_scooter_order_page.go_next()
-        assert ya_scooter_order_page.find_element(YaScooterOrderPageLocator.INCORRECT_SUBWAY_MESSAGE).is_displayed()
+        error_message_displayed = ya_scooter_order_page.is_subway_error_displayed()
+        assert error_message_displayed, "Ожидаемое сообщение об ошибке для пустого поля метро не отображается."
 
     @allure.suite('Suite_Заполнение данных на странице "Для кого самокат"')
     @allure.feature('Фича_Заполнения данных user-a при создании заказа на этапе "Для кого самокат"')
@@ -77,7 +80,8 @@ class TestYaScooterOrderPage:
         ya_scooter_home_page.click_cookie_accept()
         ya_scooter_order_page.input_telephone_number('Вqw')
         ya_scooter_order_page.go_next()
-        assert ya_scooter_order_page.find_element(YaScooterOrderPageLocator.INCORRECT_TELEPHONE_NUMBER_MESSAGE).is_displayed()
+        error_message_displayed = ya_scooter_order_page.is_telephone_number_error_displayed()
+        assert error_message_displayed, "Ожидаемое сообщение об ошибке для некорректного номера телефона не отображается."
 
     @allure.suite('Suite_Заполнение данных на странице "Для кого самокат"')
     @allure.feature('Фича_Заполнения данных user-a при создании заказа на этапе "Для кого самокат"')
@@ -92,7 +96,8 @@ class TestYaScooterOrderPage:
         ya_scooter_home_page.click_cookie_accept()
         ya_scooter_order_page.fill_user_data(order_data.data_sets['data_set1'])
         ya_scooter_order_page.go_next()
-        assert len(ya_scooter_order_page.find_elements(YaScooterOrderPageLocator.ORDER_BUTTON)) > 0
+        order_button_visible = ya_scooter_order_page.is_order_button_visible()
+        assert order_button_visible, "Кнопка заказа не отображается при корректных данных пользователя."
 
     @allure.suite('Suite_Заполнение данных на странице "Про аренду"')
     @allure.feature('Фича_Заполнения данных user-a при создании заказа на этапе "Про аренду"')
@@ -112,7 +117,8 @@ class TestYaScooterOrderPage:
         ya_scooter_order_page.fill_rent_data(order_data.data_sets[data_set])
         ya_scooter_order_page.click_order()
         ya_scooter_order_page.click_accept_order()
-        assert len(ya_scooter_order_page.find_elements(YaScooterOrderPageLocator.ORDER_COMPLETED_INFO)) > 0
+        order_info_visible = ya_scooter_order_page.is_order_completed()
+        assert order_info_visible, "Информация о завершении заказа должна быть видима"
 
     @allure.suite('Suite_Полный путь создания заказа')
     @allure.feature('Фича_Полный путь создания заказа')
